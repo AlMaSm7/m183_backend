@@ -4,7 +4,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password  # use your own password
-      MYSQL_DATABASE: testdb  # name of the database
+      MYSQL_DATABASE: passwordManager  # name of the database
       MYSQL_USER: user  # name of the user
       MYSQL_PASSWORD: password  # password for the user
     volumes:
