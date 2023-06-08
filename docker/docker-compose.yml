@@ -1,0 +1,25 @@
+services:
+  db:
+    image: mysql/mysql-server:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password  # use your own password
+      MYSQL_DATABASE: testdb  # name of the database
+      MYSQL_USER: user  # name of the user
+      MYSQL_PASSWORD: password  # password for the user
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: db
+      PMA_USER: user  # name of the user
+      PMA_PASSWORD: password  # password for the user
+      PMA_ARBITRARY: 1
+
+volumes:
+  db_data:
