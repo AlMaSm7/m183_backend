@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: password  # password for the user
     volumes:
       - db_data:/var/lib/mysql
-
+      - ./ddl.sql:/docker-entrypoint-initdb.d/ddl.sql
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always

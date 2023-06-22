@@ -16,3 +16,4 @@ CREATE TABLE `Record` (
     PRIMARY KEY (`id`),
     FOREIGN KEY (`user_id`) REFERENCES User(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB;
+CREATE UNIQUE INDEX unique_username ON User(username);
