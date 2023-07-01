@@ -4,15 +4,20 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "user")
 @Getter
 @Setter
 @ToString
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -23,9 +28,45 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
+    @Column(name = "salt")
+    private String salt;
 
     @OneToMany
     @JoinColumn(name = "record_id")
     @ToString.Exclude
     private List<Record> records;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+    //Generation of claims for JWT
+    public Map<String, Object> toExtraClaim() {
+        Map<String, Object> extraClaim = new HashMap<>();
+        extraClaim.put("userId", userId);
+        extraClaim.put("username", username);
+        extraClaim.put("email", email);
+
+        return extraClaim;
+    }
 }
