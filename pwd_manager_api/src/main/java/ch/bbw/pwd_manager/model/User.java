@@ -8,8 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -31,14 +31,10 @@ public class User implements UserDetails {
     @Column(name = "salt")
     private String salt;
 
-    @OneToMany
-    @JoinColumn(name = "record_id")
-    @ToString.Exclude
-    private List<Record> records;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -60,6 +56,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
     //Generation of claims for JWT
     public Map<String, Object> toExtraClaim() {
         Map<String, Object> extraClaim = new HashMap<>();

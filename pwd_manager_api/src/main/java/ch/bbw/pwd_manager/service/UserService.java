@@ -24,7 +24,6 @@ public class UserService {
         if (loginUser.isPresent()) {
             User user = loginUser.get();
             String loginPassword = hashPassword(user, password); // Hash the user-provided password
-            System.out.println(loginPassword);
             // Compare the hashed password with the stored hashed password
             if (loginPassword.equals(user.getPassword())) {
                 return jwtService.generateToken(user.toExtraClaim(), user);
@@ -61,7 +60,6 @@ public class UserService {
         if (salt == null) {
             salt = BCrypt.gensalt();
             user.setSalt(salt); // Store the newly generated salt in the User object
-            System.out.println(salt);
         }
 
         String pepper = "fjksjfaklsdjfuLnbfodjsfhüo";
