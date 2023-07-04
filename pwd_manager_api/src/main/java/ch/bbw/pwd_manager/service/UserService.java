@@ -23,7 +23,7 @@ public class UserService {
         Optional<User> loginUser = userRepo.findUserByUsername(userName);
         if (loginUser.isPresent()) {
             User user = loginUser.get();
-            String loginPassword = hashPassword(user, password); // Hash the user-provided password
+            String loginPassword = hashPassword(user, password, false); // Hash the user-provided password
             // Compare the hashed password with the stored hashed password
             if (loginPassword.equals(user.getPassword())) {
                 return jwtService.generateToken(user.toExtraClaim(), user);
@@ -38,7 +38,7 @@ public class UserService {
 
     public String registerUser(User user) {
         if (userRepo.findUserByUsername(user.getUsername()).isEmpty()) {
-            user.setPassword(hashPassword(user, user.getPassword()));
+            user.setPassword(hashPassword(user, user.getPassword(), false));
             userRepo.save(user);
             return jwtService.generateToken(user.toExtraClaim(), user);
         } else {
@@ -46,8 +46,16 @@ public class UserService {
         }
     }
 
-    public void editUser(User user) {
-        userRepo.save(user);
+    public User editUser(String updatedPassword, Long userId) {
+        Optional<User> user = userRepo.findById(userId);
+        if(user.isPresent()){
+            String hashedPassword = hashPassword(user.get(), updatedPassword, true);
+            user.get().setPassword(hashedPassword);
+            userRepo.save(user.get());
+            return user.get();
+        } else {
+            return null;
+        }
     }
 
     @Transactional
@@ -55,9 +63,9 @@ public class UserService {
         // TODO
     }
 
-    private String hashPassword(User user, String passwordToHash) {
+    private String hashPassword(User user, String passwordToHash, boolean isUpdateNeeded) {
         String salt = user.getSalt();
-        if (salt == null) {
+        if (salt == null || isUpdateNeeded) {
             salt = BCrypt.gensalt();
             user.setSalt(salt); // Store the newly generated salt in the User object
         }

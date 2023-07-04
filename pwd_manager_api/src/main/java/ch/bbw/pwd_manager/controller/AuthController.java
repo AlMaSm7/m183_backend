@@ -1,10 +1,14 @@
 package ch.bbw.pwd_manager.controller;
 
 import ch.bbw.pwd_manager.dto.LoginForm;
+import ch.bbw.pwd_manager.dto.UpdatePassword;
 import ch.bbw.pwd_manager.exceptions.DuplicateUserException;
+import ch.bbw.pwd_manager.exceptions.InvalidOperation;
 import ch.bbw.pwd_manager.exceptions.LoginException;
 import ch.bbw.pwd_manager.model.User;
+import ch.bbw.pwd_manager.service.RequestService;
 import ch.bbw.pwd_manager.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +24,9 @@ import java.util.Map;
 public class AuthController {
 
     private final UserService userService;
+    private final RequestService requestService;
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginForm loginForm) {
         String token = userService.login(loginForm.getUsername(), loginForm.getPassword());
 
@@ -45,6 +50,21 @@ public class AuthController {
             throw new DuplicateUserException("Username: " + user.getUsername() + " already exists");
         }
     }
+
+    @PutMapping
+    public ResponseEntity<User> updatePassword(@RequestBody UpdatePassword updatePassword, HttpServletRequest request) {
+        String token = requestService.extractTokenFromRequest(request);
+        Long userId = requestService.getUserId(token);
+
+        User user = userService.editUser(updatePassword.getPasswordToUpdate(), userId);
+
+        if (user == null) {
+            throw new InvalidOperation("Cannot change Password of another user");
+        } else {
+            return ResponseEntity.ok().body(user);
+        }
+    }
+
 
     @ExceptionHandler(LoginException.class)
     public ResponseEntity<String> handleLoginFailedException(LoginException ex) {

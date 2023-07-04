@@ -2,7 +2,6 @@ package ch.bbw.pwd_manager.controller;
 
 import ch.bbw.pwd_manager.config.JwtService;
 import ch.bbw.pwd_manager.exceptions.InvalidOperation;
-import ch.bbw.pwd_manager.exceptions.LoginException;
 import ch.bbw.pwd_manager.model.Record;
 import ch.bbw.pwd_manager.model.User;
 import ch.bbw.pwd_manager.service.RecordService;
@@ -79,7 +78,6 @@ public class RecordController {
         Claims claims = jwtService.extractAllClaims(token);
         Integer userIdInteger = (Integer) claims.get("userId");
         Long userId = userIdInteger.longValue();
-        System.out.println(userId);
         return userId;
     }
 

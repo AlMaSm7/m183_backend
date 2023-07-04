@@ -1,5 +1,6 @@
 package ch.bbw.pwd_manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,8 +28,10 @@ public class User implements UserDetails {
     @Column(name = "email")
     private String email;
     @Column(name = "password")
+    @JsonIgnore
     private String password;
     @Column(name = "salt")
+    @JsonIgnore
     private String salt;
 
 
