@@ -38,6 +38,7 @@ public class UserService {
 
     public String registerUser(User user) {
         if (userRepo.findUserByUsername(user.getUsername()).isEmpty()) {
+            System.out.println(user.getPassword());
             user.setPassword(hashPassword(user, user.getPassword(), false));
             userRepo.save(user);
             return jwtService.generateToken(user.toExtraClaim(), user);
