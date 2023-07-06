@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)// we anyways only let it run on localhost
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.
                                 sessionCreationPolicy(SessionCreationPolicy.STATELESS))

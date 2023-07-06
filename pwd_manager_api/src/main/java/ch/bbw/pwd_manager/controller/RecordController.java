@@ -77,8 +77,7 @@ public class RecordController {
     private Long getUserId(String token) {
         Claims claims = jwtService.extractAllClaims(token);
         Integer userIdInteger = (Integer) claims.get("userId");
-        Long userId = userIdInteger.longValue();
-        return userId;
+        return userIdInteger.longValue();
     }
 
     @ExceptionHandler(InvalidOperation.class)
