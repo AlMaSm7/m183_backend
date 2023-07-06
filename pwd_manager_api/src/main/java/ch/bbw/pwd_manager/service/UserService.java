@@ -59,9 +59,20 @@ public class UserService {
         }
     }
 
+    /**
+     * @param userName
+     */
     @Transactional
     public void deleteUser(String userName) {
-        // TODO
+        Optional<User> user = userRepo.findUserByUsername(userName);
+        user.ifPresent(value -> this.deleteUser(value.getUserId()));
+    }
+
+    /**
+     * @param id
+     */
+    private void deleteUser(Long id) {
+        userRepo.deleteById(id);
     }
 
     private String hashPassword(User user, String passwordToHash, boolean isUpdateNeeded) {
