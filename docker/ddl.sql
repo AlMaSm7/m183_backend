@@ -14,6 +14,6 @@ CREATE TABLE `passwordManager`.`record` (
     `password` VARCHAR(255) NOT NULL,
     `url` VARCHAR(255) NULL DEFAULT NULL,
     `note` TEXT NULL DEFAULT NULL,
-    PRIMARY KEY (`id`),
+    PRIMARY KEY (`record_id`),
     FOREIGN KEY (`user_id_fk`) REFERENCES `user`(`user_id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB;
