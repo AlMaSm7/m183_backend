@@ -20,14 +20,12 @@ import java.util.Map;
 
 @RestController
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@CrossOrigin("http://localhost:3000")
 @RequestMapping("/api/auth")
 public class AuthController {
 
     private final UserService userService;
     private final RequestService requestService;
 
-    @CrossOrigin("http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginForm loginForm) {
         String token = userService.login(loginForm.getUsername(), loginForm.getPassword());
@@ -41,7 +39,6 @@ public class AuthController {
         }
     }
 
-    @CrossOrigin("http://localhost:3000")
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody User user) {
         String token = userService.registerUser(user);
@@ -54,7 +51,6 @@ public class AuthController {
         }
     }
 
-    @CrossOrigin("http://localhost:3000")
     @PutMapping
     public ResponseEntity<User> updatePassword(@RequestBody UpdatePassword updatePassword, HttpServletRequest request) {
         String token = requestService.extractTokenFromRequest(request);

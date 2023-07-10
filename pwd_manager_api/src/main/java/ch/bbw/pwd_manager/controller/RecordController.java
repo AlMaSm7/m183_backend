@@ -18,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/records")
-@CrossOrigin("http://localhost:3000")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RecordController {
 
