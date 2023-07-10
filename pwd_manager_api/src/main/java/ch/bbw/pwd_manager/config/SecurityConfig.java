@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())// we anyways only let it run on localhost
+                .cors(Customizer.withDefaults())// use Bean corsConfigurationSource automatically, which has all configs
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.
                                 sessionCreationPolicy(SessionCreationPolicy.STATELESS))
