@@ -49,8 +49,7 @@ public class RecordService {
     public Record updateRecord(Record recordToUpdate, Long userId) {
         // Encrypt the password if it's changed
         Record existingRecord = recordRepository.findById(recordToUpdate.getRecordId()).orElse(null);
-        if (existingRecord != null && !existingRecord.getPassword().equals(recordToUpdate.getPassword()) &&
-                (!Objects.equals(existingRecord.getUser().getUserId(), userId))) {
+        if (existingRecord != null && Objects.equals(existingRecord.getUser().getUserId(), userId)) {
             String encryptedPassword = encryptionService.encrypt(recordToUpdate.getPassword());
             recordToUpdate.setPassword(encryptedPassword);
         } else {

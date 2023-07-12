@@ -10,6 +10,7 @@ CREATE TABLE `passwordManager`.`record` (
     `record_id` INT NOT NULL AUTO_INCREMENT,
     `user_id_fk` INT NOT NULL,
     `name` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NULL,
     `username` VARCHAR(255) NULL DEFAULT NULL,
     `password` VARCHAR(255) NOT NULL,
     `url` VARCHAR(255) NULL DEFAULT NULL,

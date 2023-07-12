@@ -1,6 +1,6 @@
 package ch.bbw.pwd_manager.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class Record {
 
     @ManyToOne
     @JoinColumn(name = "user_id_fk", nullable = false)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
     @Column(name = "name")
@@ -26,6 +26,9 @@ public class Record {
 
     @Column(name = "username")
     private String username;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     private String password;
